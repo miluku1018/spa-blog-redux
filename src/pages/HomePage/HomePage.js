@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { getPosts, pagingPosts } from "../../WebAPI";
+import { pagingPosts, getPostsCount } from "../../redux/reducers/postReducer";
+import { useSelector, useDispatch } from "react-redux";
 
 const Root = styled.div`
   width: 80%;
-  margin: 0 auto;
+  margin: 15px auto;
 `;
 
 const PostWrapper = styled.div`
@@ -17,7 +18,7 @@ const PostContainer = styled.div`
   border-bottom: 1px solid #f09fac;
   padding: 16px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -25,19 +26,16 @@ const PostTitle = styled(Link)`
   font-size: 24px;
   color: #333;
   text-decoration: none;
+  width: 80%;
 `;
 
 const PostDate = styled.div`
   color: rgba(0, 0, 0, 0.8);
 `;
 
-const PaginationContainer = styled.div`
+const Pagination = styled.div`
   margin: 30px 0;
   text-align: center;
-`;
-
-const PaginationInfo = styled.div`
-  padding-top: 10px;
 `;
 
 const PaginationButton = styled.button`
@@ -57,6 +55,12 @@ const PaginationButton = styled.button`
     border-radius: 5px;
     color: #ec8c9b;
   }
+
+  ${(props) =>
+    props.$active &&
+    `
+    background: ${props.theme.colors.primary_blue} ;
+  `}
 `;
 
 function Post({ post }) {
@@ -68,61 +72,31 @@ function Post({ post }) {
   );
 }
 
-function Pagination({ setCurrentPage, currentPage, totoalPages }) {
-  const handleButtonClick = (e) => {
-    const page = e.target.innerText;
-    if (page === "prev" && currentPage >= "2") {
-      return setCurrentPage(Number(currentPage) - 1);
-    }
-    if (page === "next" && Number(currentPage) !== totoalPages.length) {
-      return setCurrentPage(Number(currentPage) + 1);
-    }
-    if (page === "first") {
-      return setCurrentPage(1);
-    }
-    if (page === "last") {
-      return setCurrentPage(totoalPages.length);
-    }
-    if (page !== "prev" && page !== "next") {
-      return setCurrentPage(page);
-    }
-  };
-  return (
-    <PaginationContainer>
-      <PaginationButton onClick={handleButtonClick}>first</PaginationButton>
-      <PaginationButton onClick={handleButtonClick}>prev</PaginationButton>
-      <PaginationButton onClick={handleButtonClick}>next</PaginationButton>
-      <PaginationButton onClick={handleButtonClick}>last</PaginationButton>
-      <PaginationInfo>
-        第 {currentPage} 頁 / 共 {totoalPages.length} 頁
-      </PaginationInfo>
-    </PaginationContainer>
-  );
-}
-
 Post.propTypes = {
   post: PropTypes.object,
 };
 
 export default function HomePage() {
-  const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState("1");
-  const [totoalPages, setTotalPages] = useState([]);
+  const totoalCount = useSelector((store) => store.posts.totoalCount);
+  const posts = useSelector((store) => store.posts.posts);
+  const pages = [];
   const limit = 5;
 
   useEffect(() => {
-    getPosts().then((posts) => {
-      const total = Math.ceil(posts.length / limit);
-      for (let i = 1; i < total; i++) {
-        setTotalPages((totoalPages) => [...totoalPages, i]);
-      }
-    });
-  }, []);
+    dispatch(getPostsCount());
+    dispatch(pagingPosts(currentPage, limit));
+  }, [dispatch, currentPage]);
 
-  useEffect(() => {
-    pagingPosts(currentPage, limit).then((posts) => setPosts(posts));
-  }, [currentPage]);
+  const length = Math.ceil(totoalCount / limit);
+  for (let i = 1; i <= length; i++) {
+    pages.push(i);
+  }
 
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <Root>
       <PostWrapper>
@@ -130,11 +104,17 @@ export default function HomePage() {
           <Post key={post.id} post={post} />
         ))}
       </PostWrapper>
-      <Pagination
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        totoalPages={totoalPages}
-      />
+      <Pagination>
+        {pages.map((page) => (
+          <PaginationButton
+            key={page}
+            $active={page === currentPage}
+            onClick={() => handlePageClick(page)}
+          >
+            {page}
+          </PaginationButton>
+        ))}
+      </Pagination>
     </Root>
   );
 }

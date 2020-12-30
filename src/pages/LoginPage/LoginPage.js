@@ -1,10 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { login, getMe } from "../../WebAPI";
-import { setAuthToken } from "../../utils";
-import { AuthContext } from "../../contexts";
-
+import { login, setErrorMessage } from "../../redux/reducers/userReducer";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const ErrorMessage = styled.div`
   color: red;
@@ -44,31 +42,22 @@ const Button = styled.button`
 `;
 
 export default function LoginPage() {
-  const { setUser } = useContext(AuthContext);
+  const errorMessage = useSelector((store) => store.users.errorMessage);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrorMessage(null);
-    login(username, password).then((data) => {
-      if (data.ok === 0) {
-        return setErrorMessage(data.message);
-      }
-      setAuthToken(data.token);
-
-      getMe().then((response) => {
-        if (response.ok !== 1) {
-          setAuthToken(null);
-          return setErrorMessage(response.toString());
-        }
-        setUser(response.data);
+    dispatch(login(username, password)).then((res) => {
+      if (res) {
         history.push("/");
-      });
+      }
     });
   };
+
   return (
     <Form onSubmit={handleSubmit}>
       <div>

@@ -18,7 +18,7 @@ export const getPost = (id) => {
   return fetch(`${BASE_URL}/posts/${id}`).then((res) => res.json());
 };
 
-export const newPost = (title, body) => {
+export const createPost = (title, body) => {
   const token = getAuthToken();
   return fetch(`${BASE_URL}/posts`, {
     method: "POST",
@@ -26,13 +26,20 @@ export const newPost = (title, body) => {
       "content-type": "application/json",
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      title,
-      body,
-    }),
+    body: JSON.stringify({ title, body }),
   }).then((res) => res.json());
 };
 
+export const removePost = (id) => {
+  const token = getAuthToken();
+  return fetch(`${BASE_URL}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json());
+};
 export const login = (username, password) => {
   return fetch(`${BASE_URL}/login`, {
     method: "POST",
@@ -65,6 +72,21 @@ export const register = (username, nickname, password) => {
       username,
       nickname,
       password,
+    }),
+  }).then((res) => res.json());
+};
+
+export const editPost = (id, title, body) => {
+  const token = getAuthToken();
+  return fetch(`${BASE_URL}/posts/${id}`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      title,
+      body,
     }),
   }).then((res) => res.json());
 };

@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { setAuthToken } from "../../utils";
-import { AuthContext } from "../../contexts";
-
+import { setUser } from "../../redux/reducers/userReducer";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const HeaderContainer = styled.div`
   height: 64px;
   display: flex;
-  justify-content: space-space-between;
+  justify-content: space-between;
   align-items: center;
   position: fixed;
   top: 0;
@@ -61,15 +61,17 @@ const LeftContainer = styled.div`
 export default function Header() {
   const location = useLocation();
   const history = useHistory();
-  const { user, setUser } = useContext(AuthContext);
+  const user = useSelector((store) => store.users.user);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     setAuthToken("");
-    setUser(null);
+    dispatch(setUser(null));
     if (location.pathname !== "/") {
       history.push("/");
     }
   };
+
   return (
     <HeaderContainer>
       <LeftContainer>

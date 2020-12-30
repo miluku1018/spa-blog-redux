@@ -1,10 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { register, getMe } from "../../WebAPI";
-import { setAuthToken } from "../../utils";
-import { AuthContext } from "../../contexts";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { register, setErrorMessage } from "../../redux/reducers/userReducer";
 
 const ErrorMessage = styled.div`
   color: red;
@@ -44,28 +42,22 @@ const Button = styled.button`
 `;
 
 export default function LoginPage() {
-  const { setUser } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState();
+  const errorMessage = useSelector((store) => store.users.errorMessage);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => dispatch(setErrorMessage(null)), [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrorMessage(null);
-    register(username, nickname, password).then((data) => {
-      if (data.ok === 0) {
-        return setErrorMessage(data.message);
-      }
-      getMe().then((response) => {
-        if (response.ok !== 1) {
-          setAuthToken(null);
-          return setErrorMessage(response.toString());
-        }
-        setUser(response.data);
+    console.log(register(username, nickname, password));
+    dispatch(register(username, nickname, password)).then((res) => {
+      if (res) {
         history.push("/");
-      });
+      }
     });
   };
   return (
