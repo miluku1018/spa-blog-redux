@@ -39,8 +39,8 @@ const DeleteButton = styled.button`
 `;
 
 const EditButton = styled.button`
-  width: 100px;
-  height: 45px;
+  width: 90px;
+  height: 40px;
   cursor: pointer;
   background: aliceblue;
   border: 1px solid lightblue;
@@ -64,10 +64,9 @@ const PostInfo = styled.div`
 `;
 
 const PostTitle = styled.div`
-  font-size: 36px;
+  font-size: 34px;
   color: #333;
   text-decoration: none;
-  width: 80%;
 `;
 
 const PostDate = styled.div`
@@ -78,6 +77,7 @@ const PostDate = styled.div`
 const PostBody = styled.div`
   color: rgba(0, 0, 0, 1);
   white-space: pre-line;
+  margin-top: 20px;
 `;
 
 const Loading = styled.div`
