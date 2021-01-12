@@ -26,7 +26,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://miluku1018.github.io/spa-blog-redux",
+  "homepage": "https://miluku1018.github.io/wspa-blog-redux",
   "eslintConfig": {
     "extends": [
       "react-app",

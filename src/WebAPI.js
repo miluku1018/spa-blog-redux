@@ -1,6 +1,6 @@
 import { getAuthToken } from "./utils";
 
-const BASE_URL = "https://my-react-112.df.r.appspot.com";
+const BASE_URL = "https://immense-castle-71210.herokuapp.com";
 
 export const pagingPosts = (page, limit) => {
   return fetch(
