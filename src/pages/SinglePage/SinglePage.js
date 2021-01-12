@@ -42,13 +42,13 @@ const EditButton = styled.button`
   width: 90px;
   height: 40px;
   cursor: pointer;
-  background: #9ff95f;
-  border: 1px solid #9ff95f;
+  background: aliceblue;
+  border: 1px solid lightblue;
   padding: 10px 0;
   border-radius: 5px;
   &:hover {
-    background: #ff45009c;
-    border: 1px solid lightred;
+    background: #9ff95f;
+    border: 1px solid #9ff95f;
   }
 `;
 
