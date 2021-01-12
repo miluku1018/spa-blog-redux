@@ -72,6 +72,7 @@ const PostTitle = styled.div`
 
 const PostDate = styled.div`
   color: rgba(0, 0, 0, 0.4);
+  margin-top: 12px;
 `;
 
 const PostBody = styled.div`
