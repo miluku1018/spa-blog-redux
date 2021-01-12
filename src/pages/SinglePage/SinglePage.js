@@ -19,10 +19,12 @@ const PostContainer = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `;
 
 const DeleteButton = styled.button`
   width: 100px;
+  height: 45px;
   cursor: pointer;
   background: aliceblue;
   border: 1px solid lightblue;
@@ -38,6 +40,7 @@ const DeleteButton = styled.button`
 
 const EditButton = styled.button`
   width: 100px;
+  height: 45px;
   cursor: pointer;
   background: aliceblue;
   border: 1px solid lightblue;
@@ -56,7 +59,9 @@ const PostHeader = styled.div`
   font-weight: bold;
 `;
 
-const PostInfo = styled.div``;
+const PostInfo = styled.div`
+  width: 80%;
+`;
 
 const PostTitle = styled.div`
   font-size: 36px;
