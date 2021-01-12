@@ -22,7 +22,7 @@ const Root = styled.div`
   padding-top: 64px;
   background: #eecfd438;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `;
 
 export default function App() {
