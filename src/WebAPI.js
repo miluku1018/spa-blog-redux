@@ -1,6 +1,6 @@
 import { getAuthToken } from "./utils";
 
-const BASE_URL = "https://student-json-api.lidemy.me";
+const BASE_URL = "https://my-react-112.df.r.appspot.com";
 
 export const pagingPosts = (page, limit) => {
   return fetch(
