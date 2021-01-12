@@ -23,7 +23,7 @@ const ButtonGroup = styled.div`
 `;
 
 const DeleteButton = styled.button`
-  width: 100px;
+  width: 90px;
   height: 45px;
   cursor: pointer;
   background: aliceblue;
