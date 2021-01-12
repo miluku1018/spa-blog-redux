@@ -93,15 +93,11 @@ function Post({ post, onDelete, onUpdate }) {
     <div>
       {post && (
         <PostContainer>
-          {user && user.id === post.userId && (
-            <ButtonGroup>
-              <EditButton onClick={onUpdate}>編輯</EditButton>
-              <DeleteButton onClick={onDelete}>刪除</DeleteButton>
-            </ButtonGroup>
-          )}
           <PostHeader>
-            <PostTitle>{post.title}</PostTitle>
-            <PostDate>{new Date(post.createdAt).toLocaleString()}</PostDate>
+            <PostInfo>
+              <PostTitle>{post.title}</PostTitle>
+              <PostDate>{new Date(post.createdAt).toLocaleString()}</PostDate>
+            </PostInfo>
             {user && user.id === post.userId && (
               <ButtonGroup>
                 <EditButton onClick={onUpdate}>編輯</EditButton>
