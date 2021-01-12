@@ -56,6 +56,8 @@ const PostHeader = styled.div`
   font-weight: bold;
 `;
 
+const PostInfo = styled.div``;
+
 const PostTitle = styled.div`
   font-size: 36px;
   color: #333;
