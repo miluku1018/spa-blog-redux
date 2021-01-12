@@ -57,18 +57,19 @@ const PostHeader = styled.div`
 `;
 
 const PostTitle = styled.div`
-  font-size: 24px;
+  font-size: 36px;
   color: #333;
   text-decoration: none;
   width: 80%;
 `;
 
 const PostDate = styled.div`
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.4);
 `;
 
 const PostBody = styled.div`
   color: rgba(0, 0, 0, 1);
+  white-space: pre-line;
 `;
 
 const Loading = styled.div`
@@ -101,6 +102,12 @@ function Post({ post, onDelete, onUpdate }) {
           <PostHeader>
             <PostTitle>{post.title}</PostTitle>
             <PostDate>{new Date(post.createdAt).toLocaleString()}</PostDate>
+            {user && user.id === post.userId && (
+              <ButtonGroup>
+                <EditButton onClick={onUpdate}>編輯</EditButton>
+                <DeleteButton onClick={onDelete}>刪除</DeleteButton>
+              </ButtonGroup>
+            )}
           </PostHeader>
           <PostBody>{post.body}</PostBody>
         </PostContainer>
